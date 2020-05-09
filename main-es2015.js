@@ -408,12 +408,12 @@ class LayoutComponent {
             {
                 id: 2,
                 route: 'mycareer',
-                name: 'My Career'
+                name: 'Career'
             },
             {
                 id: 3,
                 route: 'tech',
-                name: 'Tech Skills'
+                name: 'Skills'
             },
             {
                 id: 4,
