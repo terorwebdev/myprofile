@@ -381,7 +381,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function LayoutComponent_mat_toolbar_7_mat_nav_list_2_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "mat-nav-list");
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](1, "a", 10);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](1, "a", 11);
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](3, "mat-divider");
@@ -396,7 +396,7 @@ function LayoutComponent_mat_toolbar_7_mat_nav_list_2_Template(rf, ctx) { if (rf
 function LayoutComponent_mat_toolbar_7_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "mat-toolbar");
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](1, "mat-toolbar-row");
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](2, LayoutComponent_mat_toolbar_7_mat_nav_list_2_Template, 4, 2, "mat-nav-list", 9);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](2, LayoutComponent_mat_toolbar_7_mat_nav_list_2_Template, 4, 2, "mat-nav-list", 10);
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
 } if (rf & 2) {
@@ -405,8 +405,8 @@ function LayoutComponent_mat_toolbar_7_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("ngForOf", ctx_r0.menuBar);
 } }
 function LayoutComponent_mat_sidenav_9_mat_nav_list_2_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "mat-nav-list", 14);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](1, "a", 10);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "mat-nav-list", 15);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](1, "a", 11);
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](3, "mat-divider");
@@ -419,8 +419,8 @@ function LayoutComponent_mat_sidenav_9_mat_nav_list_2_Template(rf, ctx) { if (rf
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate"](item_r6.name);
 } }
 function LayoutComponent_mat_sidenav_9_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "mat-sidenav", 11, 12);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](2, LayoutComponent_mat_sidenav_9_mat_nav_list_2_Template, 4, 2, "mat-nav-list", 13);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "mat-sidenav", 12, 13);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](2, LayoutComponent_mat_sidenav_9_mat_nav_list_2_Template, 4, 2, "mat-nav-list", 14);
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵnextContext"]();
@@ -430,39 +430,53 @@ function LayoutComponent_mat_sidenav_9_Template(rf, ctx) { if (rf & 1) {
 class LayoutComponent {
     constructor(dialog) {
         this.dialog = dialog;
-        this.toolbarSize = { 'height': '360px', 'max-height': '360px' };
+        this.toolbarSize = { height: '360px', 'max-height': '360px' };
         this.logoActivate = false;
+        this.widthsize = null;
         this.menuBar = [
             {
                 id: 1,
                 route: 'aboutme',
-                name: 'About Me'
+                name: 'About Me',
             },
             {
                 id: 2,
                 route: 'mycareer',
-                name: 'Career'
+                name: 'Career',
             },
             {
                 id: 3,
                 route: 'tech',
-                name: 'Skills'
+                name: 'Skills',
             },
             {
                 id: 4,
                 route: 'mystudy',
-                name: 'Certificates'
-            }
+                name: 'Certificates',
+            },
         ];
     }
-    onScroll(e) {
-        console.log('window', e);
-    }
     onResize(event) {
-        this.size(event.target.innerWidth);
+        this.widthsize = event.target.innerWidth;
+        this.size('width', event.target.innerWidth);
+    }
+    onScroll(event) {
+        // visible height + pixel scrolled >= total height
+        if (event.target.scrollTop === 0) {
+            // top
+            this.size('scroll', 0);
+        }
+        else {
+            // scroll detect
+            this.size('scroll', 1);
+        }
+        if (event.target.offsetHeight + event.target.scrollTop >=
+            event.target.scrollHeight) {
+            console.log('End');
+        }
     }
     ngOnInit() {
-        this.size(window.innerWidth);
+        this.size('width', window.innerWidth);
         this.openWelcome();
     }
     openWelcome() {
@@ -475,29 +489,39 @@ class LayoutComponent {
             const incoming = result;
         });
     }
-    size(size) {
-        if (size > 1000) {
-            this.logoActivate = false;
-            this.toolbarSize = { 'height': '360px', 'max-height': '360px' };
+    size(type, size) {
+        if (type === 'width') {
+            if (size > 1000) {
+                this.logoActivate = false;
+                this.toolbarSize = { height: '360px', 'max-height': '360px' };
+            }
+            if (size > 775 && size <= 1000) {
+                this.logoActivate = true;
+                this.toolbarSize = { height: '280px', 'max-height': '280px' };
+            }
+            if (size > 555 && size <= 775) {
+                this.logoActivate = true;
+                this.toolbarSize = { height: '230px', 'max-height': '230px' };
+            }
+            if (size <= 555) {
+                this.logoActivate = true;
+                this.toolbarSize = { height: '190px', 'max-height': '190px' };
+            }
         }
-        if (size > 775 && size <= 1000) {
-            this.logoActivate = true;
-            this.toolbarSize = { 'height': '280px', 'max-height': '280px' };
-        }
-        if (size > 555 && size <= 775) {
-            this.logoActivate = true;
-            this.toolbarSize = { 'height': '230px', 'max-height': '230px' };
-        }
-        if (size <= 555) {
-            this.logoActivate = true;
-            this.toolbarSize = { 'height': '190px', 'max-height': '190px' };
+        if (type === 'scroll') {
+            if (size === 0) {
+                this.size('width', this.widthsize);
+            }
+            if (size === 1) {
+                this.toolbarSize = { height: '190px', 'max-height': '190px' };
+            }
         }
     }
 }
 LayoutComponent.ɵfac = function LayoutComponent_Factory(t) { return new (t || LayoutComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_material_dialog__WEBPACK_IMPORTED_MODULE_2__["MatDialog"])); };
 LayoutComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({ type: LayoutComponent, selectors: [["app-layout"]], hostBindings: function LayoutComponent_HostBindings(rf, ctx) { if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵlistener"]("scroll", function LayoutComponent_scroll_HostBindingHandler($event) { return ctx.onScroll($event); }, false, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresolveWindow"])("resize", function LayoutComponent_resize_HostBindingHandler($event) { return ctx.onResize($event); }, false, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresolveWindow"]);
-    } }, decls: 12, vars: 3, consts: [[1, "example-container"], [1, "myPrimary", 3, "ngStyle"], [1, "fill-remaining-space"], [1, "row"], [1, "cell"], ["src", "assets/image/header/myheader.png"], [4, "ngIf"], [1, "example-sidenav-container"], ["mode", "side", "opened", "true", "class", "sideNav", 4, "ngIf"], [4, "ngFor", "ngForOf"], ["mat-list-item", "", "routerLinkActive", "active", 3, "routerLink"], ["mode", "side", "opened", "true", 1, "sideNav"], ["sidenav", ""], ["class", "sidenavSize", 4, "ngFor", "ngForOf"], [1, "sidenavSize"]], template: function LayoutComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵlistener"]("resize", function LayoutComponent_resize_HostBindingHandler($event) { return ctx.onResize($event); }, false, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵresolveWindow"])("scroll", function LayoutComponent_scroll_HostBindingHandler($event) { return ctx.onScroll($event); });
+    } }, decls: 12, vars: 3, consts: [[1, "example-container"], [1, "myPrimary", 3, "ngStyle"], [1, "fill-remaining-space"], [1, "row"], [1, "cell"], ["src", "assets/image/header/myheader.png"], [4, "ngIf"], [1, "example-sidenav-container"], ["mode", "side", "opened", "true", "class", "sideNav", 4, "ngIf"], [3, "scroll"], [4, "ngFor", "ngForOf"], ["mat-list-item", "", "routerLinkActive", "active", 3, "routerLink"], ["mode", "side", "opened", "true", 1, "sideNav"], ["sidenav", ""], ["class", "sidenavSize", 4, "ngFor", "ngForOf"], [1, "sidenavSize"]], template: function LayoutComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](1, "mat-toolbar", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](2, "div", 2);
@@ -511,7 +535,8 @@ LayoutComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineCo
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](7, LayoutComponent_mat_toolbar_7_Template, 3, 1, "mat-toolbar", 6);
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](8, "mat-sidenav-container", 7);
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](9, LayoutComponent_mat_sidenav_9_Template, 3, 1, "mat-sidenav", 8);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](10, "mat-sidenav-content");
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](10, "mat-sidenav-content", 9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵlistener"]("scroll", function LayoutComponent_Template_mat_sidenav_content_scroll_10_listener($event) { return ctx.onScroll($event); });
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](11, "router-outlet");
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
@@ -531,12 +556,12 @@ LayoutComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineCo
                 templateUrl: './layout.component.html',
                 styleUrls: ['./layout.component.css'],
             }]
-    }], function () { return [{ type: _angular_material_dialog__WEBPACK_IMPORTED_MODULE_2__["MatDialog"] }]; }, { onScroll: [{
-            type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["HostListener"],
-            args: ['window:scroll', ['$event']]
-        }], onResize: [{
+    }], function () { return [{ type: _angular_material_dialog__WEBPACK_IMPORTED_MODULE_2__["MatDialog"] }]; }, { onResize: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["HostListener"],
             args: ['window:resize', ['$event']]
+        }], onScroll: [{
+            type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["HostListener"],
+            args: ['scroll', ['$event']]
         }] }); })();
 
 
